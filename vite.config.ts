@@ -18,6 +18,7 @@ export default defineConfig({
         "postcss",
         "autoprefixer",
         "react-router-dom",
+        "@tanstack/react-query",
       ],
     }),
   ],
@@ -26,7 +27,6 @@ export default defineConfig({
     minify: false,
     cssCodeSplit: false,
     assetsDir: "assets",
-
   },
   server: {
     port: 5004,
