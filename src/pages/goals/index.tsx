@@ -1,43 +1,51 @@
 import { useState } from "react";
 import { LabeledInput } from "../../components/LabeledInput.tsx";
 import { Table } from "../../components/table/index.tsx";
+import { useProductsAllPeriod } from "../../hooks/useProductsAllPeriod.ts";
 
 export const Goals = () => {
+  const { data: products } = useProductsAllPeriod();
+
   const [dailySalesGoal, setDailySalesGoal] = useState("");
   const [monthlySalesGoal, setMonthlySalesGoal] = useState("");
   const [prodAGoal, setProdAGoal] = useState("");
   const [prodBGoal, setProdBGoal] = useState("");
 
-  const progressData = [
-    { label: "Vendas Diárias", goal: "Meta: R$ 5.000", progress: 0.75 },
-    { label: "Vendas Mensais", goal: "Meta: R$ 150.000", progress: 0.5 },
-    { label: "Produção (Tipo A)", goal: "Meta: 1000 unidades", progress: 0.9 },
-    { label: "Produção (Tipo B)", goal: "Meta: 500 unidades", progress: 0.6 },
-  ];
+  const progressData =
+    products?.flatMap((product) => {
+      const nome = product?.nome ?? "Produto";
+      const periodo = product?.periodo ?? "Período indefinido";
+      const meta = product?.meta ?? 0;
+      const lucro = product?.lucro ?? 0;
 
-  const historyData = [
-    {
-      id: "1",
-      date: "01/07/2024",
-      goal: "Vendas Diárias",
-      result: "R$ 5.200",
-      status: "Atingida",
-    },
-    {
-      id: "2",
-      date: "01/07/2024",
-      goal: "Produção (Tipo A)",
-      result: "1050 unidades",
-      status: "Atingida",
-    },
-    {
-      id: "3",
-      date: "01/06/2024",
-      goal: "Vendas Mensais",
-      result: "R$ 160.000",
-      status: "Atingida",
-    },
-  ];
+      const progresso = meta > 0 ? lucro / meta : 0;
+
+      return {
+        label: `${nome} - ${periodo}`,
+        goal: `Meta: ${
+          typeof meta === "number" ? `R$ ${meta.toFixed(2)}` : meta
+        }`,
+        progress: Math.min(progresso, 1),
+      };
+    }) ?? [];
+
+  const historyData =
+    products?.map((produto, index) => {
+      const nome = produto?.nome ?? "Produto";
+      const periodo = produto?.periodo ?? "Período indefinido";
+      const meta = produto?.meta ?? 0;
+      const lucro = produto?.lucro ?? 0;
+
+      const atingiuMeta = meta > 0 && lucro >= meta;
+
+      return {
+        id: String(index),
+        produto: nome,
+        date: periodo,
+        goal: meta,
+        status: atingiuMeta ? "Atingida" : "Não atingida",
+      };
+    }) ?? [];
 
   const tableColumns = [
     { accessorKey: "date", header: "Data" },
