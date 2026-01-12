@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { LabeledInput } from "../../components/labeledInput.tsx/index.tsx";
-import { Table } from "../../components/table/index.tsx";
-import { useProductsAllPeriod } from "../../hooks/useProductsAllPeriod.ts";
+import { LabeledInput } from "@/components/labeledInput.tsx/index.tsx";
+import { Table } from "@/components/table/index.tsx";
+import { useProductsAllPeriod } from "@/hooks/useProductsAllPeriod.ts";
 
 export const Goals = () => {
   const { data: products } = useProductsAllPeriod();
