@@ -1,41 +1,13 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import federation from "@originjs/vite-plugin-federation";
 import path from "path";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    federation({
-      name: "goals-app",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./FarmsFiapGoals": "./src/App.tsx",
-      },
-      shared: [
-        "react",
-        "react-dom",
-        "tailwindcss",
-        "postcss",
-        "autoprefixer",
-        "react-router-dom",
-        "@tanstack/react-query",
-      ],
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  build: {
-    target: "esnext",
-    minify: false,
-    cssCodeSplit: false,
-    assetsDir: "assets",
-  },
-  server: {
-    port: 5004,
   },
   test: {
     globals: true,
@@ -55,8 +27,10 @@ export default defineConfig({
         "src/**/*.d.ts",
         "node_modules/",
         "src/lib/**",
-        "App.tsx",
-        "main.tsx",
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/model/**",
+        "src/hooks/**",
       ],
     },
   },
