@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LabeledInput } from "../../components/LabeledInput.tsx";
+import { LabeledInput } from "../../components/labeledInput.tsx/index.tsx";
 import { Table } from "../../components/table/index.tsx";
 import { useProductsAllPeriod } from "../../hooks/useProductsAllPeriod.ts";
 
