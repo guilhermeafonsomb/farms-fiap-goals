@@ -38,14 +38,16 @@ export const LabeledInput = ({
 
   return (
     <section>
-      <p className="text-base font-medium text-black mb-2">{label}</p>
-      <input
-        className="rounded-lg p-3 mb-3  text-black bg-primary-100"
-        placeholder={placeholder}
-        value={displayValue}
-        onChange={(e) => handleChange(e.target.value)}
-        type="numeric"
-      />
+      <label className="flex flex-col">
+        <span className="text-base font-medium text-black mb-2">{label}</span>
+        <input
+          className="rounded-lg p-3 mb-3  text-black bg-primary-100"
+          placeholder={placeholder}
+          value={displayValue}
+          onChange={(e) => handleChange(e.target.value)}
+          type="text"
+        />
+      </label>
     </section>
   );
 };
