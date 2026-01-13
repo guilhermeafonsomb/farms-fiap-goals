@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import federation from "@originjs/vite-plugin-federation";
 import path from "path";
@@ -36,28 +36,5 @@ export default defineConfig({
   },
   server: {
     port: 5004,
-  },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/test/setup.ts",
-    css: true,
-    env: {
-      VITE_APPWRITE_ENDPOINT: "https://nyc.cloud.appwrite.io/v1",
-      VITE_APPWRITE_PROJECT_ID: "68d01da500316c3af9cd",
-    },
-    exclude: ["**/node_modules/**", "**/dist/**", "**/lib/**", "**/e2e/**"],
-    coverage: {
-      provider: "v8",
-      include: ["src/**/*.{ts,tsx}"],
-      exclude: [
-        "src/test/**",
-        "src/**/*.d.ts",
-        "node_modules/",
-        "src/lib/**",
-        "App.tsx",
-        "main.tsx",
-      ],
-    },
   },
 });
