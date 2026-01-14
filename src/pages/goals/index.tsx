@@ -66,15 +66,15 @@ export const Goals = () => {
   return (
     <section>
       <div className="max-w-5xl mx-auto w-full">
-        <p className="text-2xl font-bold text-black mb-3">
+        <h1 className="text-2xl font-bold text-black mb-3">
           Metas de Vendas e Produção
-        </p>
+        </h1>
         <p className="text-primary-500 mb-8">
           Defina e acompanhe suas metas para otimizar a produção e impulsionar
           as vendas.
         </p>
 
-        <p className="text-lg font-bold mb-5">Definir metas</p>
+        <h2 className="text-black text-lg font-bold mb-5">Definir metas</h2>
 
         <div className="grid grid-cols-2 gap-4 mb-6 max-w-lg">
           <LabeledInput
@@ -103,11 +103,13 @@ export const Goals = () => {
           />
         </div>
 
-        <button className="bg-primary-500 p-3 rounded-lg items-center ml-auto mb-3 text-white font-bold">
+        <button className="bg-primary-500 p-3 rounded-lg items-center ml-auto mb-3 text-white font-bold focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
           Salvar Metas
         </button>
 
-        <p className="text-lg font-bold mb-5">Progresso das Metas</p>
+        <h2 className="text-black text-lg font-bold mb-5">
+          Progresso das Metas
+        </h2>
         {progressData.map((item, index) => (
           <div key={index} className="mb-6">
             <p className="text-base text-black font-medium mb-3">
@@ -117,14 +119,21 @@ export const Goals = () => {
             <progress
               className="w-56 appearance-none [&::-webkit-progress-bar]:rounded-lg filled:rounded-lg unfilled:bg-slate-300 filled:bg-[#4dde21]"
               value={item.progress}
+              aria-label={`Progresso para ${item.label}`}
+              aria-valuenow={Math.round(item.progress * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuetext={`${Math.round(
+                item.progress * 100
+              )} porcentagem completa`}
             />
             <p className="text-sm text-primary-500 mt-3">{item.goal}</p>
           </div>
         ))}
 
-        <div className="text-lg font-bold mb-5 mt-2">
+        <h2 className="text-lg font-bold mb-5 mt-2">
           Histórico de Metas Atingidas
-        </div>
+        </h2>
         {tableColumns && historyData.length > 0 && (
           <Table
             columns={tableColumns}
