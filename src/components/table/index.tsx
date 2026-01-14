@@ -20,11 +20,12 @@ export const Table = <T,>({ data, columns }: TableProps<T>) => {
 
   return (
     <table className="border border-primary-200 rounded-lg">
+      <caption className="sr-only">Histórico de metas atingidas</caption>
       <thead className="rounded-lg border-b border-primary-200 text-left">
         {table.getHeaderGroups().map((hg) => (
           <tr key={hg.id}>
             {hg.headers.map((header) => (
-              <th className="text-black px-2 py-3 " key={header.id}>
+              <th className="text-black px-2 py-3 " key={header.id} scope="col">
                 {flexRender(
                   header.column.columnDef.header,
                   header.getContext()

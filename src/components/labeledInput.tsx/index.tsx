@@ -38,14 +38,16 @@ export const LabeledInput = ({
 
   return (
     <section>
-      <label className="flex flex-col">
+      <label htmlFor={label} className="flex flex-col">
         <span className="text-base font-medium text-black mb-2">{label}</span>
         <input
-          className="rounded-lg p-3 mb-3  text-black bg-primary-100"
+          id={label}
+          className="rounded-lg p-3 mb-3 text-black bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
           placeholder={placeholder}
           value={displayValue}
           onChange={(e) => handleChange(e.target.value)}
           type="text"
+          aria-describedby={placeholder ? `${label}-hint` : undefined}
         />
       </label>
     </section>
