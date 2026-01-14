@@ -2,14 +2,62 @@ import { useState } from "react";
 import { LabeledInput } from "@/components/labeledInput.tsx/index.tsx";
 import { Table } from "@/components/table/index.tsx";
 import { useProductsAllPeriod } from "@/hooks/useProductsAllPeriod.ts";
+import { Loading } from "@/components/loading";
 
 export const Goals = () => {
-  const { data: products } = useProductsAllPeriod();
+  const { data: products, isLoading } = useProductsAllPeriod();
 
   const [dailySalesGoal, setDailySalesGoal] = useState("");
   const [monthlySalesGoal, setMonthlySalesGoal] = useState("");
   const [prodAGoal, setProdAGoal] = useState("");
   const [prodBGoal, setProdBGoal] = useState("");
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const validateForm = () => {
+    const newErrors: string[] = [];
+
+    if (!dailySalesGoal || parseFloat(dailySalesGoal) <= 0) {
+      newErrors.push("Meta de Vendas Diárias deve ser maior que zero");
+    }
+
+    if (!monthlySalesGoal || parseFloat(monthlySalesGoal) <= 0) {
+      newErrors.push("Meta de Vendas Mensais deve ser maior que zero");
+    }
+    if (!prodAGoal || parseFloat(prodAGoal) <= 0) {
+      newErrors.push("Meta de Produção (Tipo A) deve ser maior que zero");
+    }
+    if (!prodBGoal || parseFloat(prodBGoal) <= 0) {
+      newErrors.push("Meta de Produção (Tipo B) deve ser maior que zero");
+    }
+
+    setErrors(newErrors);
+    return newErrors.length === 0;
+  };
+
+  const handleSaveGoals = async () => {
+    setSaveSuccess(false);
+    setErrors([]);
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSaveSuccess(true);
+
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (error) {
+      setErrors(["Erro ao salvar metas. Por favor, tente novamente."]);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const progressData =
     products?.flatMap((product) => {
@@ -63,6 +111,10 @@ export const Goals = () => {
     }));
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <section>
       <div className="max-w-5xl mx-auto w-full">
@@ -75,6 +127,37 @@ export const Goals = () => {
         </p>
 
         <h2 className="text-black text-lg font-bold mb-5">Definir metas</h2>
+
+        {errors.length > 0 && (
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded"
+          >
+            <h3 className="text-red-800 font-bold text-base mb-2">
+              {errors.length === 1
+                ? "Há 1 erro no formulário:"
+                : `Há ${errors.length} erros no formulário:`}
+            </h3>
+            <ul className="list-disc list-inside text-red-700 space-y-1">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {saveSuccess && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded"
+          >
+            <p className="text-green-800 font-medium">
+              ✓ Metas salvas com sucesso!
+            </p>
+          </div>
+        )}
 
         <div className="grid grid-cols-2 gap-4 mb-6 max-w-lg">
           <LabeledInput
@@ -103,8 +186,13 @@ export const Goals = () => {
           />
         </div>
 
-        <button className="bg-primary-500 p-3 rounded-lg items-center ml-auto mb-3 text-white font-bold focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
-          Salvar Metas
+        <button
+          onClick={handleSaveGoals}
+          disabled={isSaving}
+          aria-busy={isSaving}
+          className="bg-primary-500 p-3 rounded-lg items-center ml-auto mb-3 text-white font-bold focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSaving ? "Salvando..." : "Salvar Metas"}
         </button>
 
         <h2 className="text-black text-lg font-bold mb-5">
