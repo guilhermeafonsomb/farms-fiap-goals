@@ -1,9 +1,8 @@
-import type { Models } from "appwrite";
-
-export type ProductAllPeriod = Models.Row & {
-  nome: string;
-  lucro: number;
-  vendas: number;
-  periodo: "Semanal" | "Mensal" | "Anual";
-  meta: number;
+export type ProductAllPeriod = {
+  $id: string;
+  name: string;
+  profit: number;
+  sales: number;
+  period: "WEEKLY" | "MONTHLY" | "ANNUAL";
+  goals: number;
 };

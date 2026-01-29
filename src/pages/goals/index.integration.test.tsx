@@ -1,5 +1,10 @@
 import { render, waitFor } from "@/test/test-utils";
 import { Goals } from ".";
+import {
+  APPWRITE_DATABASE,
+  APPWRITE_ENDPOINT,
+  COLLECTION_ID_PRODUCTS,
+} from "@/lib/appwrite";
 
 describe("Goals Page Integration Tests", () => {
   it("should fetch products from API and display them correctly", async () => {
@@ -26,20 +31,17 @@ describe("Goals Page Integration Tests", () => {
   it("should handle empty data from API", async () => {
     const { server } = await import("@/lib/mocks/server");
     const { http, HttpResponse } = await import("msw");
-    const { APPWRITE_ENDPOINT, DATABASE_ID, COLLECTION_ID } = await import(
-      "@/lib/mocks/handlers"
-    );
 
     server.use(
       http.get(
-        `${APPWRITE_ENDPOINT}/tablesdb/${DATABASE_ID}/tables/${COLLECTION_ID}/rows`,
+        `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE}/tables/${COLLECTION_ID_PRODUCTS}/rows`,
         () => {
           return HttpResponse.json({
             total: 0,
             rows: [],
           });
-        }
-      )
+        },
+      ),
     );
 
     const { container, getByText } = render(<Goals />);
@@ -77,7 +79,7 @@ describe("Goals Page Integration Tests", () => {
     await waitFor(() => {
       expect(getByText("Data")).toBeInTheDocument();
       expect(getByText("Meta")).toBeInTheDocument();
-      expect(getByText("Status")).toBeInTheDocument();
+      expect(getByText("Resultado")).toBeInTheDocument();
     });
 
     const table = container.querySelector("table");

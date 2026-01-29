@@ -61,37 +61,37 @@ export const Goals = () => {
 
   const progressData =
     products?.flatMap((product) => {
-      const nome = product?.nome ?? "Produto";
-      const periodo = product?.periodo ?? "Período indefinido";
-      const meta = product?.meta ?? 0;
-      const lucro = product?.lucro ?? 0;
+      const name = product?.name ?? "Produto";
+      const period = product?.period ?? "Período indefinido";
+      const goals = product?.goals ?? 0;
+      const profit = product?.profit ?? 0;
 
-      const progresso = meta > 0 ? lucro / meta : 0;
+      const progress = goals > 0 ? profit / goals : 0;
 
       return {
-        label: `${nome} - ${periodo}`,
+        label: `${name} - ${period}`,
         goal: `Meta: ${
-          typeof meta === "number" ? `R$ ${meta.toFixed(2)}` : meta
+          typeof goals === "number" ? `R$ ${goals.toFixed(2)}` : goals
         }`,
-        progress: Math.min(progresso, 1),
+        progress: Math.min(progress, 1),
       };
     }) ?? [];
 
   const historyData =
-    products?.map((produto, index) => {
-      const nome = produto?.nome ?? "Produto";
-      const periodo = produto?.periodo ?? "Período indefinido";
-      const meta = produto?.meta ?? 0;
-      const lucro = produto?.lucro ?? 0;
+    products?.map((product, index) => {
+      const name = product?.name ?? "Produto";
+      const period = product?.period ?? "Período indefinido";
+      const goals = product?.goals ?? 0;
+      const profit = product?.profit ?? 0;
 
-      const atingiuMeta = meta > 0 && lucro >= meta;
+      const goalsRead = goals > 0 && profit >= goals;
 
       return {
         id: String(index),
-        produto: nome,
-        date: periodo,
-        goal: meta,
-        status: atingiuMeta ? "Atingida" : "Não atingida",
+        product: name,
+        date: period,
+        goals: goals,
+        status: goalsRead ? "Atingida" : "Não atingida",
       };
     }) ?? [];
 
@@ -99,15 +99,13 @@ export const Goals = () => {
     { accessorKey: "date", header: "Data" },
     { accessorKey: "goals", header: "Meta" },
     { accessorKey: "result", header: "Resultado" },
-    { accessorKey: "status", header: "Status" },
   ];
 
   const transformData = (apiData: any) => {
     return apiData.map((item: any) => ({
       date: item.date,
-      goal: item.goal,
-      result: item.result,
-      status: item.status,
+      goals: item.goals,
+      result: item.status,
     }));
   };
 
@@ -212,7 +210,7 @@ export const Goals = () => {
               aria-valuemin={0}
               aria-valuemax={100}
               aria-valuetext={`${Math.round(
-                item.progress * 100
+                item.progress * 100,
               )} porcentagem completa`}
             />
             <p className="text-sm text-primary-500 mt-3">{item.goal}</p>
