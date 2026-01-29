@@ -1,27 +1,43 @@
 # React + TypeScript + Vite + Microfront
 
-This is a micro-frontend project. Need run all micro-frontends and host project to see all experience
+[![CI](https://github.com/guilhermeafonsomb/farms-fiap-goals/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermeafonsomb/farms-fiap-goals/actions/workflows/ci.yml)
+
+[![codecov](https://codecov.io/gh/guilhermeafonsomb/farms-fiap-goals/branch/main/graph/badge.svg)](https://codecov.io/gh/guilhermeafonsomb/farms-fiap-goals)
+
+Authentication:
+
+Email: test@example.com
+
+Senha: user_test
+
+This is a host project. Need run all micro-frontends projects to see all experience in local environment
 
 ## Commands
 
 install dependencies
+
 ```
 pnpm i
 ```
 
-run only this project
+run project
+
 ```
 pnpm dev
 ```
 
-run this project with host
+run tests
+
 ```
-pnpm build
+pnpm test
 ```
 
 ```
-npx serve dist -p 5004
+pnpm test:e2e
 ```
 
-## host project
- [host](https://github.com/guilhermeafonsomb/farms-fiap-host)
+First build the micro-fronts repos and run this project last.
+
+## Site in Vercel
+
+[Farms Fiap](https://farms-fiap.vercel.app)

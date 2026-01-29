@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { fetchProductsAllPeriod } from "./index";
-import { COLLECTION_ID, DATABASE_ID } from "@/lib/mocks/handlers";
+import {
+  APPWRITE_DATABASE,
+  APPWRITE_ENDPOINT,
+  COLLECTION_ID_PRODUCTS,
+} from "@/lib/appwrite";
 
 describe("fetch Products All Period", () => {
   it("should return mocked list of products", async () => {
@@ -8,18 +12,18 @@ describe("fetch Products All Period", () => {
 
     expect(products).toHaveLength(2);
     expect(products[0]).toMatchObject({
-      nome: "Produto A",
-      lucro: 1000,
-      vendas: 50,
-      periodo: "Mensal",
-      meta: 1500,
+      name: "Produto A",
+      profit: 1000,
+      sales: 50,
+      period: "Mensal",
+      goals: 1500,
     });
     expect(products[1]).toMatchObject({
-      nome: "Produto B",
-      lucro: 2000,
-      vendas: 100,
-      periodo: "Semanal",
-      meta: 2500,
+      name: "Produto B",
+      profit: 2000,
+      sales: 100,
+      period: "Semanal",
+      goals: 2500,
     });
   });
 
@@ -29,14 +33,14 @@ describe("fetch Products All Period", () => {
 
     server.use(
       http.get(
-        `https://nyc.cloud.appwrite.io/v1/tablesdb/${DATABASE_ID}/tables/${COLLECTION_ID}/rows`,
+        `${APPWRITE_ENDPOINT}/tablesdb/${APPWRITE_DATABASE}/tables/${COLLECTION_ID_PRODUCTS}/rows`,
         () => {
           return HttpResponse.json(
             { message: "Internal Server Error" },
-            { status: 500 }
+            { status: 500 },
           );
-        }
-      )
+        },
+      ),
     );
 
     const products = await fetchProductsAllPeriod();

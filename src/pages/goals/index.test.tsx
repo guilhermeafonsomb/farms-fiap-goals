@@ -9,19 +9,19 @@ describe("Goals Page Tests", () => {
   const mockProducts = [
     {
       $id: "1",
-      nome: "Tomate",
-      lucro: 1500,
-      vendas: 50,
-      periodo: "Mensal" as const,
-      meta: 2000,
+      name: "Tomate",
+      profit: 1500,
+      sales: 50,
+      period: "Mensal" as const,
+      goals: 2000,
     },
     {
       $id: "2",
-      nome: "Alface",
-      lucro: 3000,
-      vendas: 100,
-      periodo: "Semanal" as const,
-      meta: 2500,
+      name: "Alface",
+      profit: 3000,
+      sales: 100,
+      period: "Semanal" as const,
+      goals: 2500,
     },
   ];
 
@@ -45,6 +45,7 @@ describe("Goals Page Tests", () => {
 
   it("should transform API data correctly", () => {
     const { getByText } = render(<Goals />);
+    
     expect(getByText("Atingida")).toBeInTheDocument();
     expect(getByText("Não atingida")).toBeInTheDocument();
   });
@@ -93,16 +94,16 @@ describe("Goals Page Tests", () => {
     fireEvent.click(saveButton);
 
     expect(
-      getByText("Meta de Vendas Diárias deve ser maior que zero")
+      getByText("Meta de Vendas Diárias deve ser maior que zero"),
     ).toBeInTheDocument();
     expect(
-      getByText("Meta de Vendas Mensais deve ser maior que zero")
+      getByText("Meta de Vendas Mensais deve ser maior que zero"),
     ).toBeInTheDocument();
     expect(
-      getByText("Meta de Produção (Tipo A) deve ser maior que zero")
+      getByText("Meta de Produção (Tipo A) deve ser maior que zero"),
     ).toBeInTheDocument();
     expect(
-      getByText("Meta de Produção (Tipo B) deve ser maior que zero")
+      getByText("Meta de Produção (Tipo B) deve ser maior que zero"),
     ).toBeInTheDocument();
   });
 

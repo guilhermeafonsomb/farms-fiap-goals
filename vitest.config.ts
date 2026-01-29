@@ -1,9 +1,12 @@
 import { defineConfig } from "vitest/config";
+import { loadEnv} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({mode}) =>{
+const env = loadEnv(mode, `${process.cwd()}`);
+  return {
+      plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -15,8 +18,8 @@ export default defineConfig({
     setupFiles: "./src/test/setup.ts",
     css: true,
     env: {
-      VITE_APPWRITE_ENDPOINT: "https://nyc.cloud.appwrite.io/v1",
-      VITE_APPWRITE_PROJECT_ID: "68d01da500316c3af9cd",
+      VITE_APPWRITE_ENDPOINT: env.VITE_APPWRITE_ENDPOINT,
+      VITE_APPWRITE_PROJECT_ID: env.VITE_APPWRITE_PROJECT_ID,
     },
     exclude: ["**/node_modules/**", "**/dist/**", "**/lib/**", "**/e2e/**"],
     coverage: {
@@ -34,4 +37,6 @@ export default defineConfig({
       ],
     },
   },
+  }
+
 });

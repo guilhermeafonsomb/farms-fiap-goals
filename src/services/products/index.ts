@@ -1,16 +1,17 @@
-import { tablesDB } from "@/lib/appwrite";
+import {
+  APPWRITE_DATABASE,
+  COLLECTION_ID_PRODUCTS,
+  tablesDB,
+} from "@/lib/appwrite";
 import type { ProductAllPeriod } from "@/model/products";
-
-const DATABASE_ID = "68d021ad002fe84e49fb";
-const COLLECTION_ID_PRODUCTS = "produtos";
 
 export const fetchProductsAllPeriod = async (): Promise<ProductAllPeriod[]> => {
   try {
-    const response = await tablesDB.listRows<ProductAllPeriod>({
-      databaseId: DATABASE_ID,
+    const response = await tablesDB.listRows({
+      databaseId: APPWRITE_DATABASE,
       tableId: COLLECTION_ID_PRODUCTS,
     });
-    return response.rows;
+    return response.rows as unknown as ProductAllPeriod[];
   } catch (error) {
     console.error("Erro ao buscar produtos por:", error);
 
