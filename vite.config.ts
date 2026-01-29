@@ -32,7 +32,7 @@ export default defineConfig({
     target: "esnext",
     minify: false,
     cssCodeSplit: false,
-    assetsDir: "assets",
+    assetsDir: "goals-assets",
   },
   server: {
     port: 5004,
