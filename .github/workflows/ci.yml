@@ -111,6 +111,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
+      - name: Build for E2E
+        run: pnpm build:e2e
+        env:
+          VITE_APPWRITE_ENDPOINT: ${{ secrets.VITE_APPWRITE_ENDPOINT }}
+          VITE_APPWRITE_PROJECT_ID: ${{ secrets.VITE_APPWRITE_PROJECT_ID }}
+          VITE_APPWRITE_DATABASE_ID: ${{ secrets.VITE_APPWRITE_DATABASE_ID }}
+          VITE_APPWRITE_TABLE_ID: ${{ secrets.VITE_APPWRITE_TABLE_ID }}
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
@@ -121,7 +129,6 @@ jobs:
           VITE_APPWRITE_PROJECT_ID: ${{ secrets.VITE_APPWRITE_PROJECT_ID }}
           VITE_APPWRITE_DATABASE_ID: ${{ secrets.VITE_APPWRITE_DATABASE_ID }}
           VITE_APPWRITE_TABLE_ID: ${{ secrets.VITE_APPWRITE_TABLE_ID }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
@@ -158,14 +165,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
-      - name: Project build
+      - name: Build and deploy to Zephyr
         run: pnpm build
         env:
           VITE_APPWRITE_ENDPOINT: ${{ secrets.VITE_APPWRITE_ENDPOINT }}
           VITE_APPWRITE_PROJECT_ID: ${{ secrets.VITE_APPWRITE_PROJECT_ID }}
           VITE_APPWRITE_DATABASE_ID: ${{ secrets.VITE_APPWRITE_DATABASE_ID }}
           VITE_APPWRITE_TABLE_ID: ${{ secrets.VITE_APPWRITE_TABLE_ID }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          ZE_SERVER_TOKEN: ${{ secrets.ZE_SERVER_TOKEN }}
+          ZE_USER_EMAIL: ${{ secrets.ZE_USER_EMAIL }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
