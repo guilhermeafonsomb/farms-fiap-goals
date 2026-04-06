@@ -1,56 +1,40 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { ModuleFederationOptions, withZephyr } from "vite-plugin-zephyr";
-import { federation } from "@module-federation/vite";
+import federation from "@originjs/vite-plugin-federation";
 import path from "path";
 
-const mfConfig: ModuleFederationOptions = {
-  name: "goals-app",
-  filename: "remoteEntry.js",
-  exposes: {
-    "./FarmsFiapGoals": "./src/App.tsx",
-  },
-  shared: {
-    react: { singleton: true, requiredVersion: "^19.0.0" },
-    "react-dom": { singleton: true, requiredVersion: "^19.0.0" },
-    "react-router-dom": { singleton: true },
-    "@tanstack/react-query": { singleton: true },
-  },
-  manifest: true,
-  dts: false,
-};
-
 export default defineConfig({
-  base: process.env.ZE_PUBLIC_PATH || "/",
   plugins: [
     react(),
-    process.env.SKIP_ZEPHYR === "true"
-      ? federation(mfConfig)
-      : withZephyr({ mfConfig }),
+    federation({
+      name: "goals-app",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./FarmsFiapGoals": "./src/App.tsx",
+      },
+      shared: [
+        "react",
+        "react-dom",
+        "tailwindcss",
+        "postcss",
+        "autoprefixer",
+        "react-router-dom",
+        "@tanstack/react-query",
+      ],
+    }),
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  optimizeDeps: {
-    needsInterop: ["react", "@tanstack/react-query"],
-  },
-  experimental: {
-    renderBuiltUrl() {
-      return { relative: true };
-    },
-  },
   build: {
     target: "esnext",
     minify: false,
     cssCodeSplit: false,
-    assetsDir: "assets",
+    assetsDir: "goals-assets",
   },
   server: {
-    port: 5004,
-  },
-  preview: {
     port: 5004,
   },
 });

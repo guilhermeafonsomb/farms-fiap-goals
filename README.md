@@ -20,20 +20,10 @@ install dependencies
 pnpm i
 ```
 
-run only this project
+run project
 
 ```
 pnpm dev
-```
-
-run this project with host
-
-```
-pnpm build
-```
-
-```
-npx serve dist -p 5004
 ```
 
 run tests
@@ -48,6 +38,6 @@ pnpm test:e2e
 
 First build the micro-fronts repos and run this project last.
 
-## host project
+## Site in Vercel
 
-[host](https://github.com/guilhermeafonsomb/farms-fiap-host)
+[Farms Fiap](https://farms-fiap.vercel.app)
