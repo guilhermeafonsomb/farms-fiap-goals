@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
@@ -14,33 +13,24 @@ export default defineConfig({
     actionTimeout: 15000,
     trace: "on-first-retry",
   },
-  projects: process.env.CI
-    ? [
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
-      ]
-    : [
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
-        {
-          name: "firefox",
-          use: { ...devices["Desktop Firefox"] },
-        },
-        {
-          name: "webkit",
-          use: { ...devices["Desktop Safari"] },
-        },
-      ],
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
+  ],
   webServer: {
-    command: process.env.CI
-      ? "npx serve dist -p 5004 -s"
-      : "pnpm dev",
+    command: "pnpm dev",
     url: "http://localhost:5004",
-    reuseExistingServer: !process.env.CI,
-    timeout: 60 * 1000,
+    reuseExistingServer: true,
+    timeout: 120000,
   },
 });

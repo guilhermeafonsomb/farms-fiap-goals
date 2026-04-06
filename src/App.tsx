@@ -1,4 +1,3 @@
-import "./index.css";
 import { Goals } from "./pages/goals";
 
 function App() {
